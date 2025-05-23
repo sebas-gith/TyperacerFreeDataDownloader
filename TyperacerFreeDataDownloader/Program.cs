@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.IO;
+using System.Configuration;
 
 
 namespace TyperacerFreeDataDownloader
@@ -13,19 +14,22 @@ namespace TyperacerFreeDataDownloader
 
         private readonly EdgeDriver _driver;
         public List<Row> Table;
-        public Program()
+        public Program(string User)
         {
             Table = new List<Row>();
             EdgeOptions option = new EdgeOptions();
-            //option.AddArgument("--headless");
+            // In order to exec the navigator in the background uncomment the below line
+            //option.AddArgument("--headless"); 
             _driver = new EdgeDriver(option);
-            _driver.Url = "https://data.typeracer.com/pit/race_history?user=alva_tipe";
+            _driver.Url = $"https://data.typeracer.com/pit/race_history?user={User}";
             _driver.Navigate().GoToUrl(_driver.Url);
         }
         public static void Main(string[] args)
         {
+            //Change the blow line with your typeracer username 
+            string User = "alva_tipe";
 
-            Program program = new Program();
+            Program program = new Program(User);
 
             
             while (program.IsNotLastPage())
@@ -33,6 +37,9 @@ namespace TyperacerFreeDataDownloader
                 program.GetTableData();
                 program.GoToNextPage();
             }
+            //Save the table of the last page
+            program.GetTableData();
+
             program.SaveToCSV();
             program.Quit();
         }
@@ -41,7 +48,7 @@ namespace TyperacerFreeDataDownloader
         {
             try
             {
-                //Search for the html of table
+                //Search the html of the table
                 IWebElement table = _driver.FindElement(By.ClassName("Scores__Table__Body"));
 
                 //Make a list of all children of table
@@ -79,7 +86,7 @@ namespace TyperacerFreeDataDownloader
                 olderButton.Click();
                 WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
                 wait.Until(d => d.FindElement(By.ClassName("Scores__Table__Row")).Displayed);
-            }catch(Exception ex) { 
+            }catch(Exception) { 
 
             }
            
@@ -91,7 +98,7 @@ namespace TyperacerFreeDataDownloader
             {
                 _driver.FindElement(By.XPath("//*[contains(text(), 'load older results')]"));
                 return true;
-            } catch (NoSuchElementException ex)
+            } catch (NoSuchElementException)
             {
                 return false;
             }
@@ -110,11 +117,11 @@ namespace TyperacerFreeDataDownloader
             using (StreamWriter writer = new StreamWriter(path))
             {
                foreach (Row row in Table)
-                {
+               {
                     writer.WriteLine(Utils.FormatRowToCSV(row));
-                }
+               }
             }
-            Console.WriteLine("The file saved correctly");
+            Console.WriteLine("The data was saved correctly");
         }
     }
 }
