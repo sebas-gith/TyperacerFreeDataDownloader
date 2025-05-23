@@ -15,11 +15,11 @@ namespace TyperacerFreeDataDownloader
 
         public static int FormatSpeed(string speed)
         {
-            return Convert.ToInt32(speed.Substring(0, 2));
+            return Convert.ToInt32(speed.Substring(0, speed.Length-4));
         }
         public static decimal FormatAccuracy(string accuracy)
         {
-            return Convert.ToDecimal(accuracy.Substring(0, 2));
+            return Convert.ToDecimal(accuracy.Substring(0, accuracy.Length-1));
         }
 
         public static int FormatPoints(string points)
