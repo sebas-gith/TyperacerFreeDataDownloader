@@ -21,7 +21,7 @@ TyperacerFreeDataDownloader is a C# console application that uses Selenium with 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/TyperacerFreeDataDownloader.git
+git clone git@github.com:sebas-gith/TyperacerFreeDataDownloader.git
 cd TyperacerFreeDataDownloader
 ```
 ## 2. Open the Project
