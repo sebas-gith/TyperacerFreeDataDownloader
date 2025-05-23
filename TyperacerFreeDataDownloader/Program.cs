@@ -31,13 +31,10 @@ namespace TyperacerFreeDataDownloader
 
             Program program = new Program(User);
 
-            int i = 0;  
-            while (program.IsNotLastPage() && i <= 4)
+            while (program.IsNotLastPage())
             {
                 program.GetTableData();
                 program.GoToNextPage();
-
-                ++i;
             }
             //Save the table of the last page
             program.GetTableData();
