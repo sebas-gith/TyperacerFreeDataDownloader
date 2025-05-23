@@ -70,3 +70,6 @@ To run it in headless mode, uncomment the following line in `Program.cs`:
 ```csharp
 //option.AddArgument("--headless");
 ```
+## 📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
